@@ -1,1 +1,3 @@
 (sum + 47) / total
+New Line
+123
