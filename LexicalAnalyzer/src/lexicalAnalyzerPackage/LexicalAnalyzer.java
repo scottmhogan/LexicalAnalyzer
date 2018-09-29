@@ -84,12 +84,20 @@ public class LexicalAnalyzer {
                     + ". \nCSCI 4200-DB, Fall 2018, Lexical Analyzer");
             System.out.println("********************************************************************************");
             while((line = bufferedReader1.readLine()) != null) {
+            	
                 System.out.println("Input: " + line);
                 getChar();
                 do {
-                    lex();}
-
-                while(!line.equals(lineCompare));
+                	if(line.length() > 0) {
+                    lex();
+                	}
+                	else {
+                		line = null;
+                		System.out.println("Skipping empty line in file");
+                		break;
+                	}
+                    
+                    } while(!line.equals(lineCompare));
                 System.out.println("********************************************************************************");
                 getChar();
                 if (line==null || charClass == END_OF_FILE){
