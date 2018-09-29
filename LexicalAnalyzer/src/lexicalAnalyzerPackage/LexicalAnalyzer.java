@@ -92,7 +92,6 @@ public class LexicalAnalyzer {
                     lex();
                 	}
                 	else {
-                		line = null;
                 		System.out.println("Skipping empty line in file");
                 		break;
                 	}
