@@ -1,3 +1,6 @@
+
+
+
 //Team: Scott Hogan, Cameron Wright
 //      Melanie Greyerbiehl, Cameron Foster
 //
@@ -46,12 +49,14 @@ public class LexicalAnalyzer {
     private static final String EXCLAMATION = "EXCLAMATION";
     private static final String LESS_THAN = "LESS_THAN";
     private static final String GREATER_THAN = "GREATER_THAN";
+    private static final String PERCENT = "PERCENT";
+
 
     //VARIABLES
     private static String charClass;
     private static String nextToken;
     private static int nextChar;
-        //FILE VARIABLES
+    //FILE VARIABLES
     private static File file;
     private static FileReader fileReader1;
     private static FileReader fileReader2;
@@ -77,34 +82,27 @@ public class LexicalAnalyzer {
             bufferedReader2 = new BufferedReader(fileReader2);
 
             //OUTPUT TOKENS AND LEXEMES FOR EACH LINE
-                //IF READER2 HAS REACHED THE END OF THE LINE IT
-                //READS THE NEXT LINE FROM READER1 AND THEN CONTINUES
-                //WITH READER2
+            //IF READER2 HAS REACHED THE END OF THE LINE IT
+            //READS THE NEXT LINE FROM READER1 AND THEN CONTINUES
+            //WITH READER2
             System.out.println("Scott Hogan, Melanie Greyerbiehl, Cameron Wright, Cameron Foster"
                     + ". \nCSCI 4200-DB, Fall 2018, Lexical Analyzer");
             System.out.println("********************************************************************************");
             while((line = bufferedReader1.readLine()) != null) {
-            	
-                System.out.println("Input: " + line);
+
                 getChar();
-                do {
-                	if(line.length() > 0) {
-                    lex();
-                	}
-                	else {
-                		System.out.println("Skipping empty line in file");
-                		break;
-                	}
-                    
-                    } while(!line.equals(lineCompare));
-                System.out.println("********************************************************************************");
-                getChar();
-                if (line==null || charClass == END_OF_FILE){
-                    System.out.printf("%-30.50s  %-30.50s%n","Next token is: " + END_OF_FILE, "Next lexeme is EOF");
-                    System.out.println("Lexical analysis of the program is complete!");
+                if(line.trim().length() > 0) {
+                    System.out.println("Input: " + line);
+                    do {
+                        lex();
+                    } while (!line.trim().equals(lineCompare.trim()));
+                    System.out.println("********************************************************************************");
                 }
+                getChar();
                 lineCompare = null;
             }
+            System.out.printf("%-30.50s  %-30.50s%n","Next token is: " + END_OF_FILE, "Next lexeme is EOF");
+            System.out.println("Lexical analysis of the program is complete!");
 
         } catch (Exception e) {
             System.out.println("ERROR - cannot open the lexical text file"
@@ -276,6 +274,11 @@ public class LexicalAnalyzer {
                 nextToken = GREATER_THAN;
                 break;
 
+            case '%':
+                addChar();
+                nextToken = PERCENT;
+                break;
+
             default:
                 addChar();
                 nextToken = UNKNOWN;
@@ -320,3 +323,4 @@ public class LexicalAnalyzer {
 
     }
 }
+
