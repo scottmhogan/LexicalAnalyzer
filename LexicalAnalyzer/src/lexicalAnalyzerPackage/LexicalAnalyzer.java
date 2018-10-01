@@ -50,6 +50,7 @@ public class LexicalAnalyzer {
     private static final String LESS_THAN = "LESS_THAN";
     private static final String GREATER_THAN = "GREATER_THAN";
     private static final String PERCENT = "PERCENT";
+    private static final String ERROR = "TOO_LONG";
 
 
     //VARIABLES
@@ -135,12 +136,13 @@ public class LexicalAnalyzer {
 
     //ADD CHARACTER TO LEXEME AND LINECOMPARE
     public static void addChar() {
+        if(lineCompare == null)
+            lineCompare = String.valueOf((char)nextChar);
+        else
+            lineCompare += (char)nextChar;
+
         if (lexLen < (MAX_LEXEME_LENGTH - 2)) {
             lexeme[lexLen++] = (char) nextChar;
-            if(lineCompare == null)
-                lineCompare = String.valueOf((char)nextChar);
-            else
-                lineCompare += (char)nextChar;
             lexeme[lexLen] = 0;
         }
     }
@@ -300,7 +302,10 @@ public class LexicalAnalyzer {
                     addChar();
                     getChar();
                 }
-                nextToken = IDENT;
+                if (!(lexLen < (MAX_LEXEME_LENGTH - 2)))
+                    nextToken = ERROR;
+                else
+                    nextToken = IDENT;
                 break;
 
             case DIGIT:
@@ -310,7 +315,10 @@ public class LexicalAnalyzer {
                     addChar();
                     getChar();
                 }
-                nextToken = INT_LIT;
+                if (!(lexLen < (MAX_LEXEME_LENGTH - 2)))
+                    nextToken = ERROR;
+                else
+                    nextToken = INT_LIT;
                 break;
 
             case UNKNOWN:
@@ -318,9 +326,9 @@ public class LexicalAnalyzer {
                 getChar();
                 break;
         }
-        System.out.printf("%-30.50s  %-30.50s%n","Next token is: " + nextToken, "Next lexeme is " + new String(lexeme) +"");
-
+        System.out.printf("%-30.113s  %-30.113s%n","Next token is: " + nextToken, "Next lexeme is " + new String(lexeme) +"");
 
     }
+
 }
 
